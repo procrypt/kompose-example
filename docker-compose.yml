@@ -1,25 +1,19 @@
 version: "2"
 
 services:
-  mariadb:
-    image: centos/mariadb
+  redis-master:
+    image: gcr.io/google_containers/redis:e2e 
     ports:
-      - "3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: "etherpad"
-      MYSQL_DATABASE: "etherpad"
-      MYSQL_PASSWORD: "etherpad"
-      MYSQL_USER: "etherpad"
-
-  etherpad:
-    image: centos/etherpad
+      - "6379"
+  redis-slave:
+    image: gcr.io/google_samples/gb-redisslave:v1
     ports:
-      - "80:9001"
-    depends_on:
-      - mariadb
+      - "6379"
     environment:
-      DB_HOST: "etherpad"
-      DB_DBID: "etherpad"
-      DB_PASS: "etherpad"
-      DB_PORT: "3306"
-      DB_USER: "etherpad"
+      - GET_HOSTS_FROM=dns
+  frontend:
+    image: gcr.io/google-samples/gb-frontend:v4
+    ports:
+      - "80:80"
+    environment:
+      - GET_HOSTS_FROM=dns
