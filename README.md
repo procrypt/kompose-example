@@ -170,6 +170,8 @@ redis-master-1-1ep72   1/1       Running   0          4m
 
 That's it! Your application has been deployed on Openshift in just 2 simple steps.
 
+[![asciicast](https://asciinema.org/a/5snir7l4ccvcstgtugll7z41e.png)](https://asciinema.org/a/5snir7l4ccvcstgtugll7z41e)
+
 ### b) Using kompose cli
 There is one more way to deploy your aplication directly on Openshift if you do not want to inspect the artifacts created by kompose.
 
