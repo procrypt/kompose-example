@@ -263,3 +263,7 @@ redis-master-1-skbbu   1/1       Running   0          3m
 ```
 
 Your application has been deployed on Openshift using one single command.
+
+Asciinema of the above steps.
+[![asciicast](https://asciinema.org/a/7z2ispckpi8gxi4r1xv8xs08i.png)](https://asciinema.org/a/7z2ispckpi8gxi4r1xv8xs08i)
+
