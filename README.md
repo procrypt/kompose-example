@@ -94,7 +94,7 @@ Here you can the edit the files if you want to make some adddional changes.
 
 ## Deploy the application on Openshift.
 
-### Using Openshift cli.
+### a) Using Openshift cli.
 `$ oc create -f <path/to/artifacts>`
 
 ```
@@ -170,7 +170,7 @@ redis-master-1-1ep72   1/1       Running   0          4m
 
 That's it! Your application has been deployed on Openshift in just 2 simple steps.
 
-### Using kompose cli
+### b) Using kompose cli
 There is one more way to deploy your aplication directly on Openshift if you do not want to inspect the artifacts created by kompose.
 
 `$ kompose --provider openshift up`
