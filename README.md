@@ -3,12 +3,12 @@
 
 ￼`kompose` is a convenience tool to go from local Docker development to managing your application with Kubernetes. We don't assume that the transformation from docker compose format to Kubernetes API objects will be perfect, but it helps tremendously to start _Kubernetizing_ your application.
 
-In example we will create Openshift and Kubernetes artifacts for guestbook app from the docker-compose file using `kompose`.
+In example we will create OpenShift artifacts for guestbook app from the docker-compose file using `kompose`.
 
-## Creating Openshift artifacts.
+## Creating OpenShift artifacts.
 `$ kompose --provider=openshift convert`
 
-It will create the service.json, deploymentconfig.json and imagestream.json files for Openshift.
+This step will create the service.json, deploymentconfig.json and imagestream.json files for OpenShift.
 
 ```
 INFO[0000] file "frontend-service.json" created         
@@ -21,8 +21,7 @@ INFO[0000] file "redis-master-imagestream.json" created
 INFO[0000] file "redis-slave-deploymentconfig.json" created 
 INFO[0000] file "redis-slave-imagestream.json" created  
 ```
-All the Openshift artifacts generated use a single docker-compose file.
-Here you can the edit the files if you want to make some adddional changes.
+Once generated, you can inspect the files and edit these files if you want to make some adddional changes as per your requirement.
 
 
 ```
@@ -92,9 +91,14 @@ Here you can the edit the files if you want to make some adddional changes.
 }
 ```
 
-## Deploy the application on Openshift.
+If you prefer YAML files instead of JSON, you can do that using the `-y` option like so :
 
-### a) Using Openshift cli.
+`$ kompose --provider=openshift convert -y`
+
+
+## Deploy the application on OpenShift.
+
+### a) Using OpenShift cli.
 `$ oc create -f <path/to/artifacts>`
 
 ```
@@ -168,13 +172,13 @@ redis-master-1-1ep72   1/1       Running   0          4m
 
 ```
 
-That's it! Your application has been deployed on Openshift in just 2 simple steps.
+That's it! Your application has been deployed on OpenShift in just 2 simple steps.
 
 Asciinema for the above steps.
 [![asciicast](https://asciinema.org/a/5snir7l4ccvcstgtugll7z41e.png)](https://asciinema.org/a/5snir7l4ccvcstgtugll7z41e)
 
 ### b) Using kompose cli
-There is one more way to deploy your aplication directly on Openshift if you do not want to inspect the artifacts created by kompose.
+There is one more way to deploy your aplication directly on OpenShift if you do not want to inspect the artifacts created by kompose. Hence you can completely skip step 1.
 
 `$ kompose --provider openshift up`
 
@@ -262,8 +266,14 @@ redis-master-1-skbbu   1/1       Running   0          3m
 
 ```
 
-Your application has been deployed on Openshift using one single command.
+Your application has been deployed on OpenShift using one single command.
 
 Asciinema of the above steps.
 [![asciicast](https://asciinema.org/a/7z2ispckpi8gxi4r1xv8xs08i.png)](https://asciinema.org/a/7z2ispckpi8gxi4r1xv8xs08i)
 
+
+## More
+`kompose` can do more. Feel free to explore it.
+
+`kompose --help` - To find out more general options
+`kompose convert --help`- To find out more about `convert` sub command.
