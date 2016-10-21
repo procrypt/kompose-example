@@ -197,7 +197,7 @@ Your application has been deployed to OpenShift. You can run 'oc get dc,svc,is' 
 
 ```
 NAME           CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-frontend       172.30.152.108   <none>        8080/TCP   3m
+frontend       172.30.152.108   <none>        80/TCP     3m
 redis-master   172.30.31.110    <none>        6379/TCP   3m
 redis-slave    172.30.220.107   <none>        6379/TCP   3m
 ```
