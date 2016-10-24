@@ -97,7 +97,7 @@ status:
 ### There are two ways in which you can deploy the application on Kubernetes.
 #### 1) Using Kubernetes cli.
 
-`$ oc create -f <path/to/artifacts>`
+`$ kubectl create -f <path/to/artifacts>`
 Parse a configuration file and create one or more Kubernetes objects based on the file contents.
 
 ```bash
