@@ -98,6 +98,7 @@ status:
 #### 1) Using Kubernetes cli.
 
 `$ kubectl create -f <path/to/artifacts>`
+
 Parse a configuration file and create one or more Kubernetes objects based on the file contents.
 
 ```bash
