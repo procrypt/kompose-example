@@ -99,7 +99,7 @@ status:
 
 `$ kubectl create -f <path/to/artifacts>`
 
-Parse a configuration file and create one or more Kubernetes objects based on the file contents.
+It will parse a configuration file and create one or more Kubernetes objects based on the file contents.
 
 ```bash
 deployment "frontend" created
@@ -181,7 +181,8 @@ Asciinema for the above steps.
 There is one more way to deploy your application directly on Kubernetes if you do not want to inspect the artifacts created by kompose. Hence you can completely skip step 1 mentioned in the previous method mentioned above
 
 `$ kompose --provider kubernetes up`
-This will crate the Kubernetes artifacts and deploy them at the same time.
+
+It will crate the Kubernetes artifacts and deploy them at the same time.
 
 ```bash
 We are going to create Kubernetes Deployments, Services and PersistentVolumeClaims for your Dockerized application. 
