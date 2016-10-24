@@ -6,7 +6,7 @@
 In this example we will create Kubernetes artifacts for guestbook app from the docker-compose file using `kompose`.
 
 ## Creating Kubenetes artifacts.
-This step will create the service.json, deploymentconfig.json files for Kubernetes.
+This step will create the service.json, deployment.json files for Kubernetes.
 
 `$ kompose --provider=kubernetes convert`
 ```bash
