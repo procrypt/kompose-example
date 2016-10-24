@@ -1,9 +1,9 @@
 # Guestbook example kompose
-`kompose` is a tool to help users familiar with `docker-compose` move to [Kubernetes](http://kubernetes.io). It takes a Docker Compose file and translates it into Kubernetes resources.
+`kompose` is a tool to help users, familiar with `docker-compose`, move to [Kubernetes](http://kubernetes.io). It takes a Docker Compose file and translates it into Kubernetes resources.
 
 `kompose` is a convenience tool to go from local Docker development to managing your application with Kubernetes. We don't assume that the transformation from docker compose format to Kubernetes API objects will be perfect, but it helps tremendously to start _Kubernetizing_ your application.
 
-In example we will create OpenShift artifacts for guestbook app from the docker-compose file using `kompose`.
+In this example we will create OpenShift artifacts for guestbook app from the docker-compose file using `kompose`.
 
 ## Creating OpenShift artifacts.
 This step will create the service.json, deploymentconfig.json and imagestream.json files for OpenShift.
@@ -152,12 +152,13 @@ status: {}
 ```
 
 ## Deploy the application on OpenShift.
+### There are two ways in which you can deploy the application on OpenShift.
+#### 1) Using OpenShift cli.
 
-### a) Using OpenShift cli.
+`$ oc create -f <path/to/artifacts>`
+Parse a configuration file and create one or more OpenShift objects based on the file contents.
 
 ```bash
-$ oc create -f <path/to/artifacts>
-
 deploymentconfig "frontend" created
 imagestream "frontend" created
 service "frontend" created
@@ -168,6 +169,7 @@ deploymentconfig "redis-slave" created
 imagestream "redis-slave" created
 service "redis-slave" created
 ```
+
 #### View the Services and Deploymentconfig on OpenShift.
 
 ```bash
@@ -238,12 +240,13 @@ That's it! Your application has been deployed on OpenShift in just 2 simple step
 Asciinema for the above steps.
 [![asciicast](https://asciinema.org/a/5snir7l4ccvcstgtugll7z41e.png)](https://asciinema.org/a/5snir7l4ccvcstgtugll7z41e)
 
-### b) Using kompose cli
-There is one more way to deploy your aplication directly on OpenShift if you do not want to inspect the artifacts created by kompose. Hence you can completely skip step 1.
+### 2) Using kompose cli
+There is one more way to deploy your aplication directly on OpenShift if you do not want to inspect the artifacts created by kompose. Hence you can completely skip step 1 mentioned in the previous method mentioned above
 
+`$ kompose --provider openshift up`
+
+This will crate the OpenShift artifacts and deploy it at the same time.
 ```bash
-$ kompose --provider openshift up
-
 We are going to create OpenShift DeploymentConfigs and Services for your Dockerized application.
 If you need different kind of resources, use the 'kompose convert' and 'oc create -f' commands instead.
 
@@ -337,7 +340,7 @@ Asciinema of the above steps.
 
 
 ## More
-`kompose` can do more. Feel free to explore it.
+`kompose` can do more. Feel free to explore it [here](https://github.com/kubernetes-incubator/kompose).
 
-`kompose --help` - To find out more general options
-`kompose convert --help`- To find out more about `convert` sub command.
+`kompose --help` to find out more options.
+Use `kompose convert --help` to find more about the convert sub command.
