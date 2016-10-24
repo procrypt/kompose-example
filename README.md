@@ -174,7 +174,7 @@ redis-master-1-1ep72   1/1       Running   0          4m
 
 That's it! Your application has been deployed on OpenShift in just 2 simple steps.
 
-## Note: We can create route, that will expose the frontend service. But this has to be done manually by running `oc expose frontend` because kompose doesn't support that yet.
+**Note: We can create route, that will expose the frontend service. But this has to be done manually by running `oc expose frontend` because kompose doesn't support that yet.**
 
 Asciinema for the above steps.
 [![asciicast](https://asciinema.org/a/5snir7l4ccvcstgtugll7z41e.png)](https://asciinema.org/a/5snir7l4ccvcstgtugll7z41e)
