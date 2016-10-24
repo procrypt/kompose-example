@@ -110,7 +110,7 @@ deployment "redis-slave" created
 service "redis-slave" created
 ```
 
-#### View the Services and Deployment on OpenShift.
+#### View the Services and Deployment on Kubernetes.
 
 ```bash
 $ kubectl get svc
@@ -176,11 +176,98 @@ $ curl <frontend-ip>:80
 
 ```
 
-That's it! Your application has been deployed on OpenShift in just 2 simple steps.
+That's it! Your application has been deployed on Kubernetes in just 2 simple steps.
+
+Asciinema for the above steps.
+[![asciicast](https://asciinema.org/a/93cw0sd1i3rxcia9qjjccr5lp.png)](https://asciinema.org/a/93cw0sd1i3rxcia9qjjccr5lp)
 
 ### 2) Using kompose cli
 There is one more way to deploy your application directly on Kubernetes if you do not want to inspect the artifacts created by kompose. Hence you can completely skip step 1 mentioned in the previous method mentioned above
 
 `$ kompose --provider kubernetes up`
-
 This will crate the Kubernetes artifacts and deploy them at the same time.
+
+```bash
+We are going to create Kubernetes Deployments, Services and PersistentVolumeClaims for your Dockerized application. 
+If you need different kind of resources, use the 'kompose convert' and 'kubectl create -f' commands instead. 
+
+INFO[0000] Successfully created service: redis-master   
+INFO[0000] Successfully created service: redis-slave    
+INFO[0000] Successfully created service: frontend       
+INFO[0000] Successfully created deployment: redis-master 
+INFO[0000] Successfully created deployment: redis-slave 
+INFO[0000] Successfully created deployment: frontend
+
+Your application has been deployed to Kubernetes. You can run 'kubectl get deployment,svc,pod,pvc' for details.
+```
+
+#### View the Services and Deployment on Kubernetes.
+
+```bash
+$ kubectl get svc
+NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+frontend       10.254.60.179   <none>        80/TCP     3m
+kubernetes     10.254.0.1      <none>        443/TCP    1h
+redis-master   10.254.113.10   <none>        6379/TCP   3m
+redis-slave    10.254.77.181   <none>        6379/TCP   3m
+```
+
+```bash
+$ kubectl get deployment 
+NAME           DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+frontend       1         1         1            1           4m
+redis-master   1         1         1            1           4m
+redis-slave    1         1         1            1           4m
+```
+
+#### Next, take a look at the pods created by the deployments.
+
+```bash
+$ kubectl get pods
+NAME                            READY     STATUS    RESTARTS   AGE
+frontend-2768218532-1llhz       1/1       Running   0          5m
+redis-master-1432129712-nb6ie   1/1       Running   0          5m
+redis-slave-2504961300-8fjuy    1/1       Running   0          5m
+```
+
+#### Verify the application.
+
+```bash
+curl <frontend-ip>:80
+<html ng-app="redis">
+  <head>
+    <title>Guestbook</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script src="controllers.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.js"></script>
+  </head>
+  <body ng-controller="RedisCtrl">
+    <div style="width: 50%; margin-left: 20px">
+      <h2>Guestbook</h2>
+    <form>
+    <fieldset>
+    <input ng-model="msg" placeholder="Messages" class="form-control" type="text" name="input"><br>
+    <button type="button" class="btn btn-primary" ng-click="controller.onRedis()">Submit</button>
+    </fieldset>
+    </form>
+    <div>
+      <div ng-repeat="msg in messages track by $index">
+        {{msg}}
+      </div>
+    </div>
+    </div>
+  </body>
+</html>
+```
+
+Your application has been deployed on Kubernetes using one single command.
+
+Asciinema of the above steps.
+[![asciicast](https://asciinema.org/a/8ympbd3fr3s9zyxb70ticz54w.png)](https://asciinema.org/a/8ympbd3fr3s9zyxb70ticz54w)
+
+## More
+`kompose` can do more. Feel free to explore it [here](https://github.com/kubernetes-incubator/kompose).
+
+`kompose --help` to find out more options.
+Use `kompose convert --help` to find more about the convert sub command.
