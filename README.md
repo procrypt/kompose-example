@@ -23,7 +23,6 @@ INFO[0000] file "redis-slave-imagestream.json" created
 ```
 Once generated, you can inspect the files and edit these files if you want to make some adddional changes as per your requirement.
 
-
 ```
 {
   "kind": "DeploymentConfig",
@@ -91,10 +90,66 @@ Once generated, you can inspect the files and edit these files if you want to ma
 }
 ```
 
-If you prefer YAML files instead of JSON, you can do that using the `-y` option like so :
+If you prefer `YAML` files instead of `JSON`, you can do that using the `-y` option like so :
 
 `$ kompose --provider=openshift convert -y`
+```
+INFO[0000] file "redis-slave-service.yaml" created      
+INFO[0000] file "frontend-service.yaml" created         
+INFO[0000] file "redis-master-service.yaml" created     
+INFO[0000] file "redis-slave-deploymentconfig.yaml" created 
+INFO[0000] file "redis-slave-imagestream.yaml" created  
+INFO[0000] file "frontend-deploymentconfig.yaml" created 
+INFO[0000] file "frontend-imagestream.yaml" created     
+INFO[0000] file "redis-master-deploymentconfig.yaml" created 
+INFO[0000] file "redis-master-imagestream.yaml" created
+```
 
+You can inspect the file and make some additional changes, if required.
+```
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: null
+  labels:
+    service: redis-slave
+  name: redis-slave
+spec:
+  replicas: 1
+  selector:
+    service: redis-slave
+  strategy:
+    resources: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: redis-slave
+    spec:
+      containers:
+      - env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        image: ' '
+        name: redis-slave
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - redis-slave
+      from:
+        kind: ImageStreamTag
+        name: redis-slave:v1
+    type: ImageChange
+status: {}
+```
 
 ## Deploy the application on OpenShift.
 
