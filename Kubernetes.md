@@ -114,7 +114,6 @@ service "redis-slave" created
 
 ```bash
 $ kubectl get svc
-
 NAME           CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
 frontend       10.0.0.28    <none>        80/TCP     1m
 kubernetes     10.0.0.1     <none>        443/TCP    3m
@@ -125,7 +124,6 @@ redis-slave    10.0.0.26    <none>        6379/TCP   1m
 
 ```bash
 $ kubectl get deployment 
-
 NAME           DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 frontend       1         1         1            0           2m
 redis-master   1         1         1            0           2m
@@ -136,7 +134,6 @@ redis-slave    1         1         1            0           2m
 
 ```bash
 $ kubectl get pods
-
 NAME                   READY     STATUS    RESTARTS   AGE
 frontend-1-ojsux       1/1       Running   0          4m
 redis-master-1-1ep72   1/1       Running   0          4m
@@ -147,7 +144,6 @@ redis-slave-2504961    1/1       Running   0          4m
 
 ```bash
 $ curl <frontend-ip>:80
-
 <html ng-app="redis">
   <head>
     <title>Guestbook</title>
