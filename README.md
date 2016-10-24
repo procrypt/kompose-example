@@ -1,29 +1,29 @@
 # Guestbook example kompose
 `kompose` is a tool to help users familiar with `docker-compose` move to [Kubernetes](http://kubernetes.io). It takes a Docker Compose file and translates it into Kubernetes resources.
 
-￼`kompose` is a convenience tool to go from local Docker development to managing your application with Kubernetes. We don't assume that the transformation from docker compose format to Kubernetes API objects will be perfect, but it helps tremendously to start _Kubernetizing_ your application.
+`kompose` is a convenience tool to go from local Docker development to managing your application with Kubernetes. We don't assume that the transformation from docker compose format to Kubernetes API objects will be perfect, but it helps tremendously to start _Kubernetizing_ your application.
 
 In example we will create OpenShift artifacts for guestbook app from the docker-compose file using `kompose`.
 
 ## Creating OpenShift artifacts.
-`$ kompose --provider=openshift convert`
-
 This step will create the service.json, deploymentconfig.json and imagestream.json files for OpenShift.
 
+```bash
+$ kompose --provider=openshift convert
+INFO[0000] file "frontend-service.json" created
+INFO[0000] file "redis-master-service.json" created
+INFO[0000] file "redis-slave-service.json" created
+INFO[0000] file "frontend-deploymentconfig.json" created
+INFO[0000] file "frontend-imagestream.json" created
+INFO[0000] file "redis-master-deploymentconfig.json" created
+INFO[0000] file "redis-master-imagestream.json" created
+INFO[0000] file "redis-slave-deploymentconfig.json" created
+INFO[0000] file "redis-slave-imagestream.json" created
 ```
-INFO[0000] file "frontend-service.json" created         
-INFO[0000] file "redis-master-service.json" created     
-INFO[0000] file "redis-slave-service.json" created      
-INFO[0000] file "frontend-deploymentconfig.json" created 
-INFO[0000] file "frontend-imagestream.json" created     
-INFO[0000] file "redis-master-deploymentconfig.json" created 
-INFO[0000] file "redis-master-imagestream.json" created 
-INFO[0000] file "redis-slave-deploymentconfig.json" created 
-INFO[0000] file "redis-slave-imagestream.json" created  
-```
+
 Once generated, you can inspect the files and edit these files if you want to make some adddional changes as per your requirement.
 
-```
+```json
 {
   "kind": "DeploymentConfig",
   "apiVersion": "v1",
@@ -92,21 +92,21 @@ Once generated, you can inspect the files and edit these files if you want to ma
 
 If you prefer `YAML` files instead of `JSON`, you can do that using the `-y` option like so :
 
-`$ kompose --provider=openshift convert -y`
-```
-INFO[0000] file "redis-slave-service.yaml" created      
-INFO[0000] file "frontend-service.yaml" created         
-INFO[0000] file "redis-master-service.yaml" created     
-INFO[0000] file "redis-slave-deploymentconfig.yaml" created 
-INFO[0000] file "redis-slave-imagestream.yaml" created  
-INFO[0000] file "frontend-deploymentconfig.yaml" created 
-INFO[0000] file "frontend-imagestream.yaml" created     
-INFO[0000] file "redis-master-deploymentconfig.yaml" created 
+```bash
+$ kompose --provider=openshift convert -y
+INFO[0000] file "redis-slave-service.yaml" created
+INFO[0000] file "frontend-service.yaml" created
+INFO[0000] file "redis-master-service.yaml" created
+INFO[0000] file "redis-slave-deploymentconfig.yaml" created
+INFO[0000] file "redis-slave-imagestream.yaml" created
+INFO[0000] file "frontend-deploymentconfig.yaml" created
+INFO[0000] file "frontend-imagestream.yaml" created
+INFO[0000] file "redis-master-deploymentconfig.yaml" created
 INFO[0000] file "redis-master-imagestream.yaml" created
 ```
 
 You can inspect the file and make some additional changes, if required.
-```
+```yaml
 apiVersion: v1
 kind: DeploymentConfig
 metadata:
@@ -154,9 +154,10 @@ status: {}
 ## Deploy the application on OpenShift.
 
 ### a) Using OpenShift cli.
-`$ oc create -f <path/to/artifacts>`
 
-```
+```bash
+$ oc create -f <path/to/artifacts>
+
 deploymentconfig "frontend" created
 imagestream "frontend" created
 service "frontend" created
@@ -168,37 +169,40 @@ imagestream "redis-slave" created
 service "redis-slave" created
 ```
 #### View the Services and Deploymentconfig on OpenShift.
-`$ oc get svc`
 
-```
+```bash
+$ oc get svc
+
 NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 frontend       172.30.99.116   <none>        80/TCP     2m
 redis-master   172.30.94.229   <none>        6379/TCP   2m
 redis-slave    172.30.43.20    <none>        6379/TCP   2m
 ```
-`$ oc get dc`
 
-```
+```bash
+$ oc get dc
+
 NAME           REVISION   REPLICAS   TRIGGERED BY
 frontend       1          1          config,image(frontend:v4)
 redis-master   1          1          config,image(redis-master:e2e)
 redis-slave    0          1          config,image(redis-slave:v1)
-``` 
-#### Next, take a look at the pods created by the deployments.
-`$ oc get pods`
-
 ```
+
+#### Next, take a look at the pods created by the deployments.
+
+```bash
+$ oc get pods
+
 NAME                   READY     STATUS    RESTARTS   AGE
 frontend-1-ojsux       1/1       Running   0          4m
 redis-master-1-1ep72   1/1       Running   0          4m
-
 ```
 
 #### Verify the application.
 
-`$ curl <frontend-ip>:80`
+```bash
+$ curl <frontend-ip>:80
 
-```
 <html ng-app="redis">
   <head>
     <title>Guestbook</title>
@@ -237,64 +241,65 @@ Asciinema for the above steps.
 ### b) Using kompose cli
 There is one more way to deploy your aplication directly on OpenShift if you do not want to inspect the artifacts created by kompose. Hence you can completely skip step 1.
 
-`$ kompose --provider openshift up`
+```bash
+$ kompose --provider openshift up
 
-```
-We are going to create OpenShift DeploymentConfigs and Services for your Dockerized application. 
-If you need different kind of resources, use the 'kompose convert' and 'oc create -f' commands instead. 
+We are going to create OpenShift DeploymentConfigs and Services for your Dockerized application.
+If you need different kind of resources, use the 'kompose convert' and 'oc create -f' commands instead.
 
-INFO[0000] Successfully created service: frontend       
-INFO[0000] Successfully created service: redis-master   
-INFO[0000] Successfully created service: redis-slave    
-INFO[0000] Successfully created deployment: frontend    
-INFO[0000] Successfully created ImageStream: frontend   
-INFO[0000] Successfully created deployment: redis-master 
-INFO[0000] Successfully created ImageStream: redis-master 
-INFO[0000] Successfully created deployment: redis-slave 
-INFO[0000] Successfully created ImageStream: redis-slave 
+INFO[0000] Successfully created service: frontend
+INFO[0000] Successfully created service: redis-master
+INFO[0000] Successfully created service: redis-slave
+INFO[0000] Successfully created deployment: frontend
+INFO[0000] Successfully created ImageStream: frontend
+INFO[0000] Successfully created deployment: redis-master
+INFO[0000] Successfully created ImageStream: redis-master
+INFO[0000] Successfully created deployment: redis-slave
+INFO[0000] Successfully created ImageStream: redis-slave
 
 Your application has been deployed to OpenShift. You can run 'oc get dc,svc,is' for details.
 ```
 #### View the Services, Deploymentconfig, ImageStream and Pods created on OpenShift.
 
-`$ oc get svc`
+```bash
+$ oc get svc
 
-```
 NAME           CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 frontend       172.30.152.108   <none>        80/TCP     3m
 redis-master   172.30.31.110    <none>        6379/TCP   3m
 redis-slave    172.30.220.107   <none>        6379/TCP   3m
 ```
 
-`$ oc get dc`
+```bash
+$ oc get dc
 
-```
 NAME           REVISION   REPLICAS   TRIGGERED BY
 frontend       1          1          config,image(frontend:v4)
 redis-master   1          1          config,image(redis-master:e2e)
 redis-slave    0          1          config,image(redis-slave:v1)
 ```
 
-`$ oc get is`
+```bash
+$ oc get is
 
-```
 NAME           DOCKER REPO                                 TAGS      UPDATED
 frontend       172.30.78.228:5000/guestbook/frontend       v4        5 minutes ago
 redis-master   172.30.78.228:5000/guestbook/redis-master   e2e       5 minutes ago
-redis-slave    172.30.78.228:5000/guestbook/redis-slave    v1        
+redis-slave    172.30.78.228:5000/guestbook/redis-slave    v1
 ```
 
-`$ oc get pods`
+```bash
+$ oc get pods
 
-```
 NAME                   READY     STATUS    RESTARTS   AGE
 frontend-1-3dx8l       1/1       Running   0          3m
 redis-master-1-skbbu   1/1       Running   0          3m
 ```
 #### Verify the application.
-`$ curl <frontend-ip>:80`
 
-```
+```bash
+$ curl <frontend-ip>:80
+
 <html ng-app="redis">
   <head>
     <title>Guestbook</title>
