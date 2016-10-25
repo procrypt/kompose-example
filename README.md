@@ -343,4 +343,5 @@ Asciinema of the above steps.
 `kompose` can do more. Feel free to explore it [here](https://github.com/kubernetes-incubator/kompose).
 
 `kompose --help` to find out more options.
+
 Use `kompose convert --help` to find more about the convert sub command.
