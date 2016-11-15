@@ -6,7 +6,7 @@
 In this example we will create Kubernetes artifacts for guestbook app from the docker-compose file using `kompose`.
 
 ## Creating Kubenetes artifacts.
-This step will create the service.json, deployment.json files for Kubernetes.
+This step will create the `service.json` and `deployment.json` files for Kubernetes.
 
 `$ kompose --provider=kubernetes convert`
 ```bash
@@ -18,7 +18,7 @@ INFO[0000] file "redis-master-deployment.json" created
 INFO[0000] file "redis-slave-deployment.json" created   
 ```
 
-Once generated, you can inspect the files and edit these files if you want to make some additional changes as per your requirement.
+Once generated, you can inspect and edit these files if you prefer to make additional changes.
 
 ```json
 {
@@ -94,8 +94,8 @@ status:
 ```
 
 ## Deploy the application on Kubernetes.
-### There are two ways in which you can deploy the application on Kubernetes.
-#### 1) Using Kubernetes cli.
+### There are two ways to deploy your application.
+#### 1) Using `kubectl`
 
 `$ kubectl create -f <path/to/artifacts>`
 
@@ -110,7 +110,7 @@ deployment "redis-slave" created
 service "redis-slave" created
 ```
 
-#### View the Services and Deployment on Kubernetes.
+#### View the services and deployments
 
 ```bash
 $ kubectl get svc
@@ -130,7 +130,7 @@ redis-master   1         1         1            0           2m
 redis-slave    1         1         1            0           2m
 ```
 
-#### Next, take a look at the pods created by the deployments.
+#### Verify the pods are running
 
 ```bash
 $ kubectl get pods
@@ -140,7 +140,7 @@ redis-master-1-1ep72   1/1       Running   0          4m
 redis-slave-2504961    1/1       Running   0          4m
 ```
 
-#### Verify the application.
+#### Ping the application.
 
 ```bash
 $ curl <frontend-ip>:80
@@ -198,7 +198,7 @@ INFO[0000] Successfully created deployment: frontend
 Your application has been deployed to Kubernetes. You can run 'kubectl get deployment,svc,pod,pvc' for details.
 ```
 
-#### View the Services and Deployment on Kubernetes.
+#### View the services and deployment
 
 ```bash
 $ kubectl get svc
@@ -217,7 +217,7 @@ redis-master   1         1         1            1           4m
 redis-slave    1         1         1            1           4m
 ```
 
-#### Next, take a look at the pods created by the deployments.
+#### Verify the pods are running
 
 ```bash
 $ kubectl get pods
@@ -227,7 +227,7 @@ redis-master-1432129712-nb6ie   1/1       Running   0          5m
 redis-slave-2504961300-8fjuy    1/1       Running   0          5m
 ```
 
-#### Verify the application.
+#### Ping the application.
 
 ```bash
 curl <frontend-ip>:80

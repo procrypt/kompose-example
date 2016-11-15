@@ -6,10 +6,11 @@
 In this example we will create OpenShift artifacts for guestbook app from the docker-compose file using `kompose`.
 
 ## Creating OpenShift artifacts.
-This step will create the service.json, deploymentconfig.json and imagestream.json files for OpenShift.
+This step will create the `service.json`, `deploymentconfig.json` and `imagestream.json` files for OpenShift.
 
+
+`$ kompose --provider=openshift convert`
 ```bash
-$ kompose --provider=openshift convert
 INFO[0000] file "frontend-service.json" created
 INFO[0000] file "redis-master-service.json" created
 INFO[0000] file "redis-slave-service.json" created
@@ -21,7 +22,7 @@ INFO[0000] file "redis-slave-deploymentconfig.json" created
 INFO[0000] file "redis-slave-imagestream.json" created
 ```
 
-Once generated, you can inspect the files and edit these files if you want to make some adddional changes as per your requirement.
+Once generated, you can inspect the files and edit these files if you want to make some additional changes as per your requirement.
 
 ```json
 {
@@ -92,8 +93,8 @@ Once generated, you can inspect the files and edit these files if you want to ma
 
 If you prefer `YAML` files instead of `JSON`, you can do that using the `-y` option like so :
 
+`$ kompose --provider=openshift convert -y`
 ```bash
-$ kompose --provider=openshift convert -y
 INFO[0000] file "redis-slave-service.yaml" created
 INFO[0000] file "frontend-service.yaml" created
 INFO[0000] file "redis-master-service.yaml" created
